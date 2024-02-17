@@ -1,8 +1,14 @@
+<p align="center">
+If you would like to show your appreciation for this project,<br>please consider a donation :)<br><br>
+<a href="https://www.paypal.com/donate/?business=Y4Y75KP2JBNJW&currency_code=USD">
+<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="PayPal donation link"/></a>
+<p>
+
 # GLIGEN GUI
 
 [GLIGEN](https://gligen.github.io/) is a novel way to specify the precise location of objects in text-to-image models. I present here an intuitive GUI that makes it significantly easier to use GLIGEN with ComfyUI.
 
-![GLIGEN GUI demo](demo.gif)
+![GLIGEN GUI screenshot](latest.png)
 
 ![GLIGEN Example Image](example_boxes.png)
 ![GLIGEN Example Image](example.png)
