@@ -290,6 +290,14 @@ const State = {
   get seed_mode() {
     return localStorage.seed_mode;
   },
+
+  set comfy_port(val) {
+    localStorage.comfy_port = val;
+  },
+  get comfy_port() {
+    return localStorage.comfy_port;
+  },
+  requestGET
 };
 
 // State.selected_loras = new Map();
@@ -465,7 +473,8 @@ function getImage(endpoint) {
 }
 
 function initWebSocket() {
-  const socket = new WebSocket('ws://127.0.0.1:8188/ws?clientId=1122');
+  const socket = new WebSocket(`ws://127.0.0.1:${State.comfy_port}/ws?clientId=1122`);
+
 
   socket.addEventListener('open', (event) => {});
   var flag = false;
@@ -548,6 +557,18 @@ function queuePrompt() {
 function getFilename(filepath) {
   // console.log(filepath.split('\\'));
   return filepath.split('\\').pop();
+}
+
+// loads and sets the config from backend
+function loadConfig(){
+  requestGET('/config', (_, data) => {
+    if(data?.comfy_ui?.port != undefined){
+      State.comfy_port = data.comfy_ui.port
+    }else{
+      console.log("could not query config from backend, using default")
+      State.comfy_port = 8188
+    }
+  })
 }
 
 // Loads the list of checkpoints and populates the dropdown
@@ -1288,6 +1309,7 @@ window.addEventListener('load', () => {
     console.log('Seed edited');
   });
 
+  loadConfig();
   loadCheckpointList();
   loadSamplerList();
   loadLoraList();
