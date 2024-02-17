@@ -19,8 +19,8 @@ Make sure you have [Flask](https://flask.palletsprojects.com/en/3.0.x/) installe
 
 Clone this repository
 
-    git clone .git
-    cd ..
+    git clone https://github.com/mut-ex/gligen-gui.git
+    cd gligen-gui
 
 Then to start the GUI, run the following command
 
