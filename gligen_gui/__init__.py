@@ -13,6 +13,15 @@ def create_app(comfy_port=8188):
   app = flask.Flask(__name__, instance_relative_config=True)
   app.config['CORS_HEADERS'] = 'Content-Type'
 
+
+  @app.route("/config")
+  def get_config():
+      return {
+        "comfy_ui":{
+            "port": comfy_port   
+        }
+      }
+
   @app.route("/")
   def index():
       return flask.render_template('base.html')
