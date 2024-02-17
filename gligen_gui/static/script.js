@@ -353,6 +353,7 @@ function buildPrompt() {
   // let
   let modelID = 1;
   prompt[String(idx)] = nodeCheckpointLoaderSimple(State.checkpoint_name);
+  console.log(State.selected_loras.size);
   if (State.selected_loras.size > 0) {
     State.selected_loras.forEach((value, key) => {
       idx += 1;
@@ -365,14 +366,6 @@ function buildPrompt() {
     });
   }
   if (State.sampler_name == "lcm") {
-    idx += 1;
-    prompt[String(idx)] = nodeLoraLoaderModelOnly(
-      "pytorch_lora_weights.safetensors",
-      1.0,
-      String(idx - 1)
-    );
-    modelID = idx;
-
     idx += 1;
     prompt[String(idx)] = nodeModelSamplingDiscrete(
       "lcm",
@@ -792,6 +785,14 @@ function addLora(event, uuid = null) {
   } catch {}
 
   lora_strength.addEventListener('input', updateLoraStrength);
+  let lora_strength_val = parseFloat(lora_strength.value);
+  let lora_name = select.value;
+  console.log(lora_name, lora_strength_val); 
+  let temp = getMap('selected_loras');
+  temp.set(extractUUID(select.id), [lora_name, lora_strength_val]);
+  setMap('selected_loras', temp);
+  State.selected_loras = temp;
+  console.log(State.selected_loras.size);
   select.addEventListener('change', (event) => {
     let lora_name = event.target.value;
     let lora_strength = event.target.nextSibling.value;
@@ -800,6 +801,7 @@ function addLora(event, uuid = null) {
     temp.set(extractUUID(event.target.id), [lora_name, lora_strength]);
     setMap('selected_loras', temp);
     State.selected_loras = temp;
+    console.log(State.selected_loras.size);
   });
 }
 
