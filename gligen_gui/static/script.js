@@ -40,6 +40,23 @@ function nodeKSampler(
   };
 }
 
+function nodeModelSamplingDiscrete(
+  sampling,
+  model_in
+) {
+  return {
+    inputs: {
+      sampling: sampling,
+      zsnr:false,
+      model: [String(model_in), 0]
+    },
+    class_type: 'ModelSamplingDiscrete',
+    _meta: {
+      title: 'ModelSamplingDiscrete',
+    },
+  };
+}
+
 function nodeEmptyLatentImage(width, height, batch_size) {
   return {
     inputs: {
@@ -104,6 +121,8 @@ function nodeGLIGENLoader(gligen_name) {
     },
   };
 }
+
+
 
 function nodeGligenTextboxApply(
   prompt,
@@ -344,6 +363,22 @@ function buildPrompt() {
       );
       modelID = idx;
     });
+  }
+  if (State.sampler_name == "lcm") {
+    idx += 1;
+    prompt[String(idx)] = nodeLoraLoaderModelOnly(
+      "pytorch_lora_weights.safetensors",
+      1.0,
+      String(idx - 1)
+    );
+    modelID = idx;
+
+    idx += 1;
+    prompt[String(idx)] = nodeModelSamplingDiscrete(
+      "lcm",
+      String(idx - 1)
+    );
+    modelID = idx;
   }
   idx += 1;
   prompt[String(idx)] = nodeGLIGENLoader(
