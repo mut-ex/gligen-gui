@@ -28,7 +28,7 @@ Then to start the GUI, run the following command
 
 Note that this assumes your ComfyUI instance is using port 8188. If not, replace 8188 with the correct port number.
 
-Finally, open http://127.0.0.1:5000/ in your browser to start using the GUI.
+Finally, open http://127.0.0.1:5000/port/8188 in your browser to start using the GUI. However change 8188 in the URL to the port used by ComfyUI if it is different.
 
 ## How To Use
 

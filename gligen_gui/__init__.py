@@ -4,18 +4,19 @@ import urllib.request
 import urllib.parse
 import urllib.error
 
-# global BOXES
-# global BASE_PROMPT
+VERSION = "0.1"
 
+global BOXES
+global BASE_PROMPT
 def create_app(comfy_port=8188):
-  BOXES = None
-  BASE_PROMPT = None
   app = flask.Flask(__name__, instance_relative_config=True)
   app.config['CORS_HEADERS'] = 'Content-Type'
 
   @app.route("/")
-  def index():
-      return flask.render_template('base.html')
+  @app.route("/port/<port_number>")
+  def index(port_number=8188):
+      print(port_number)
+      return flask.render_template('base.html', version_number=VERSION)
 
 
   @app.route("/object_info/<class_name>", methods=['GET'])
@@ -64,15 +65,15 @@ def create_app(comfy_port=8188):
 
   @app.route('/input_args', methods=['GET'])
   def get_inputs():
-      # global BOXES
-      # global BASE_PROMPT
+      global BOXES
+      global BASE_PROMPT
       return {"boxes": BOXES, "positive_prompt": BASE_PROMPT}
 
 
   @app.route('/input_args', methods=['POST'])
   def post_inputs():
-      # global BOXES
-      # global BASE_PROMPT
+      global BOXES
+      global BASE_PROMPT
       input_args = flask.request.get_json()
       BOXES = [box[1] for box in input_args["boxes"]]
       BASE_PROMPT = input_args['positive_prompt']

@@ -4,520 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ComfyUI GLIGEN Editor</title>
-    <link rel="shortcut icon" href="/static/favicon.ico" />
+    <link rel="shortcut icon" href="/static/images/favicon.ico" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
     <link rel="stylesheet" href="/static/toast.css" />
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-
-      * {
-        box-sizing: border-box;
-      }
-
-      :root {
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        font-size: medium;
-        font-weight: 400;
-        --color-0: #fffcf2;
-        --color-1: #cfdbd5;
-        --color-2: #e8eddf;
-        --color-3: #b8b8ff;
-        --color-4: #242423;
-        --color-5: #333533;
-        --color-6: #f5cb5c;
-        --color-7: #80ed99;
-        background-color: #e8eddf;
-        --animate-duration: 0.4s;
-      }
-
-      footer {
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        font-size: medium;
-        font-variant: small-caps;
-        text-transform: lowercase;
-        letter-spacing: 0.05rem;
-        text-align: center;
-        padding-top: 1rem;
-        width: 100%;
-        font-weight: 600;
-        color: var(--color-5);
-      }
-
-      .dropdown {
-        width: 100%;
-        height: 40px;
-        border: 4px solid var(--color-3);
-        border-radius: 4px;
-        overflow: hidden;
-        background: color(--color-7);
-        box-shadow: rgba(0, 0, 0, 0.19) 0 10px 20px,
-          rgba(0, 0, 0, 0.23) 0 6px 6px;
-      }
-
-      select {
-        cursor: pointer;
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        font-size: medium;
-        font-weight: 400;
-        background-color: var(--color-3);
-        width: 100%;
-        border: 1px solid var(--color-3);
-        height: 32px;
-        /* letter-spacing: 0.05rem; */
-      }
-
-      option {
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        font-size: medium;
-        font-weight: 400;
-        cursor: pointer;
-        background-color: var(--color-3);
-      }
-
-      body {
-        justify-content: center;
-        display: flex;
-      }
-
-      main {
-        flex: 1;
-        max-width: 1366px;
-        margin-top: 1rem;
-        margin-left: 1rem;
-      }
-
-      button,
-      .filepicker-button {
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        color: var(--color-4);
-        background: var(--color-3);
-        /* word-spacing: 0px; */
-        border-radius: 4px;
-        border: none;
-        box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px,
-          rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px,
-          rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px,
-          rgba(0, 0, 0, 0.07) 0px 32px 64px;
-        cursor: pointer;
-        display: inline-block;
-        /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-        font-size: 1rem;
-        font-weight: 600;
-        /* height: 2rem; */
-        letter-spacing: 0.0892857143em;
-        line-height: 32px;
-        height: 32px;
-        /* min-width: 64px; */
-        outline: none;
-        padding: 0 0.5rem;
-        text-align: center;
-        text-decoration: none;
-        font-variant: small-caps;
-        text-transform: lowercase;
-        transition: background 0.125s;
-        vertical-align: middle;
-        /* margin-bottom: 1rem; */
-        /* margin-left: 1rem; */
-        margin: 0;
-      }
-
-      button:hover,
-      .filepicker-button:hover {
-        background: var(--color-1);
-        box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
-          0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
-      }
-
-      button.add-lora {
-        width: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        width: 100%;
-        /* border: 1px solid red; */
-      }
-
-      .column {
-        display: flex;
-        flex-direction: column;
-        flex-basis: 100%;
-        flex: 1;
-        /* border: 1px solid blue; */
-      }
-
-      canvas {
-        width: 512px;
-        height: 512px;
-        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-          rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-        /* border: 1px solid var(--color-4); */
-        border-radius: 0px;
-        transition: box-shadow 0.2s ease-in-out;
-        position: absolute;
-        /* left: 1.5rem; */
-        /* top: 1.5rem; */
-      }
-
-      .canvas-container:first-child {
-        background-color: var(--color-0);
-      }
-
-      .canvas-container {
-        /* background-color: #fffcf2; */
-        height: 512px;
-        width: 512px;
-        margin-bottom: 1rem;
-      }
-
-      .column-canvas {
-        max-width: 512px;
-        min-width: 512px;
-        width: 512px;
-        margin-right: 1rem;
-      }
-
-      .card {
-        background-color: var(--color-4);
-        border-radius: 12px;
-        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
-          rgba(0, 0, 0, 0.23) 0px 6px 6px;
-        color: #fffcf2;
-        flex: 1 1 auto;
-        margin: 0rem 0rem 1rem 0rem;
-        padding: 1rem;
-        transition: 0.3s;
-      }
-
-      .container {
-        padding: 2px 16px;
-      }
-
-      fieldset {
-        margin: 0rem;
-        padding: 1rem;
-        border-radius: 6px;
-        font-weight: 600;
-        border: 1px solid var(--color-6);
-      }
-
-      legend {
-        background-color: var(--color-6);
-        border-radius: 3px;
-        color: var(--color-5);
-        font-size: medium;
-        font-variant: small-caps;
-        font-weight: 600;
-        letter-spacing: 0.05rem;
-        /* margin-bottom: 0.5rem; */
-        padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-        text-align: center;
-        text-transform: lowercase;
-        vertical-align: middle;
-      }
-
-      /*
-      * DROPDOWN
-      ==================================================*/
-
-      /* .dropdown {
-        position: relative;
-        display: flex;
-      } */
-
-      input[type='file'] {
-        border: 2px solid var(--color-3);
-        box-shadow: rgba(0, 0, 0, 0.19) 0 10px 20px,
-          rgba(0, 0, 0, 0.23) 0 6px 6px;
-        background-color: var(--color-3);
-        border-radius: 3px;
-        color: var(--color-4);
-        letter-spacing: 0.025rem;
-      }
-
-      input[type='file'] {
-        font-size: 0.85rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-bottom: 0.5rem;
-      }
-
-      .lora-name {
-        justify-self: stretch;
-      }
-
-      .standout-text {
-        color: var(--color-6);
-      }
-
-      .dropdown-option:hover .standout-text {
-        color: var(--color-4);
-      }
-
-      .label-textarea {
-        color: var(--color-2);
-        font-size: larger;
-        font-variant: small-caps;
-        font-weight: 600;
-        letter-spacing: 0.1rem;
-        /* text-align: right; */
-        text-transform: lowercase;
-        vertical-align: middle;
-        margin: 0rem 0rem 0.25rem 0rem;
-      }
-
-      label {
-        color: var(--color-2);
-        font-size: medium;
-        font-variant: small-caps;
-        font-weight: 600;
-        letter-spacing: 0.1rem;
-        /* padding: 0.25rem; */
-        line-height: 40px;
-        text-align: center;
-        text-transform: lowercase;
-        vertical-align: middle;
-      }
-
-      input,
-      textarea {
-        border-radius: 3px;
-        background: var(--color-0);
-        border: 2px solid var(--color-1);
-        font-size: 1rem;
-        padding: 0.25rem;
-        color: var(--color-4);
-        box-shadow: none;
-        outline: none;
-        flex: 0 1 auto;
-      }
-
-      input {
-        max-height: 40px;
-      }
-
-      textarea {
-        width: 100%;
-        max-width: 80ch;
-        letter-spacing: 0.01rem;
-
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-      }
-
-      input:focus {
-        background-color: var(--color-2);
-        border: 2px solid var(--color-3);
-      }
-
-      .form-row {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-      }
-
-      .vertical-spacer {
-        height: 1.5rem;
-      }
-
-      .col-input {
-        flex: 1 1 100%;
-        padding-right: 0rem;
-        display: flex;
-      }
-
-      .col-numbers {
-        letter-spacing: 0.1rem;
-        align-items: center;
-        border: 1px solid #cfdbd51f;
-        border-radius: 3px;
-        display: flex;
-        font-size: small;
-        font-variant: small-caps;
-        font-weight: 600;
-        height: 40px;
-        line-height: 40px;
-        justify-content: center;
-        text-align: center;
-        white-space: nowrap;
-        padding: 0 0.25rem 0 0.25rem;
-      }
-
-      .icon-button {
-        cursor: pointer;
-        border-radius: 3px;
-        height: 40px;
-        width: 40px;
-        padding: 0.25rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .icon-button > img {
-        width: 28px;
-        height: 28px;
-      }
-
-      .icon-button:hover {
-        /* background-color: var(--color-6); */
-        border: 1px solid var(--color-3);
-      }
-
-      .icon-button--selected {
-        background-color: var(--color-3);
-        /* border: 1px solid var(--color-3); */
-      }
-
-      .col-prompt-input > input {
-        width: 100%;
-      }
-
-      #grounding-boxes {
-        /* margin-top: 1.5rem; */
-        margin-bottom: 1.5rem;
-      }
-
-      .grounding-boxes-grid {
-        width: 100%;
-        height: 40px;
-        column-gap: 0.5rem;
-        /* row-gap: 0.5rem; */
-        display: grid;
-        grid-template-columns: 5fr 90px 90px 40px 40px;
-        grid-template-rows: auto;
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem;
-      }
-
-      .button-row {
-        display: flex;
-      }
-      .button-row--centered {
-        justify-content: center;
-      }
-
-      .button-row--left {
-        justify-content: flex-start;
-      }
-
-      .button-row--left > button {
-        margin-right: 1rem;
-      }
-
-      .align-right {
-        justify-content: flex-start;
-      }
-
-      .sampler-params-grid {
-        /* column-gap: 1rem; */
-        row-gap: 1rem;
-        grid-template-columns: 1fr 128px 1fr 128px;
-        display: grid;
-        /* border: 1px solid var(--color-3); */
-      }
-
-      .seed-grid {
-        margin-top: 1rem;
-        row-gap: 1rem;
-        column-gap: 0.5rem;
-        grid-template-columns: 1fr 3fr 40px 40px;
-        display: grid;
-      }
-
-      .grid-seed-input {
-        /* grid-column: 2 / span 2; */
-        /* width: 192px; */
-        /* margin-right: 0.5rem; */
-      }
-
-      .grid-seed-label {
-        align-self: stretch;
-        justify-self: end;
-        /* margin-right: 0.5rem; */
-      }
-
-      .grid-label {
-        align-self: stretch;
-        justify-self: end;
-        margin-right: 0.5rem;
-      }
-
-      .grid-dropdown {
-        grid-column: 2 / span 3;
-      }
-
-      .leave-animation {
-        animation-duration: 0.25s;
-        animation-name: leave;
-      }
-
-      .enter-animation {
-        animation-duration: 0.25s;
-        animation-name: leave;
-        animation-direction: reverse;
-      }
-
-      @keyframes leave {
-        from {
-          margin: 0;
-          opacity: 1;
-          transform: scaleY(1);
-        }
-
-        to {
-          display: none;
-          height: 0;
-          margin-bottom: -0.25rem;
-          margin-top: -0.25rem;
-          opacity: 0;
-          transform: scaleY(0);
-        }
-      }
-
-      .progress-bar-container {
-        /* border: 1px solid red; */
-        /* display: inline-block; */
-        width: 100%;
-      }
-
-      .progress-bar-bg,
-      #progress-bar {
-        border-radius: 8px;
-        height: 8px;
-      }
-
-      .progress-bar-bg {
-        background-color: var(--color-5);
-      }
-
-      #progress-bar {
-        width: 0%;
-        background-color: var(--color-7);
-        margin-top: -8px;
-        transition: width 0.125s;
-      }
-
-      .lora-selector-grid {
-        row-gap: 1rem;
-        column-gap: 1rem;
-        margin-bottom: 1rem;
-        grid-template-columns: 1fr 64px 40px;
-        display: grid;
-        /* border: 1px solid var(--color-7); */
-      }
-      /* input.lora-strength { */
-      /* width: 100%; */
-      /* } */
-    </style>
+    <link rel="stylesheet" href="{{url_for('static',filename="style.css")}}" />
   </head>
 
   <body>
@@ -548,32 +41,64 @@
               <canvas id="canvas_temp" style="z-index: 2"></canvas>
             </div>
           </div>
+
           <div class="row">
-            <div class="card">
-              <div class="row button-row button-row--left">
-                <button id="queue-prompt" onclick="downloadImage()">
-                  download image
-                </button>
-                <div>
-                  <input type="file" id="fileInput" style="display: none" />
-                  <label for="fileInput" class="filepicker-button"
-                    >set canvas backdrop</label
-                  >
-                </div>
-                <!-- <button onclick="testToast()">load image</button> -->
+          <div class="card">
+            <fieldset>
+            <div class="row button-row button-row--left">
+              <button id="download-image" onclick="downloadImage()">
+                download image
+              </button>
+              <div>
+                <input type="file" id="fileInput" style="display: none" />
+                <label for="fileInput" class="filepicker-button"
+                  >set canvas backdrop</label
+                >
               </div>
+              <!-- <button onclick="testToast()">load image</button> -->
+            </div>
+            </fieldset>
+            <div class="vertical-spacer-1"></div>
+            
+            <fieldset>
+              <legend>image dimensions</legend>
+
+              <div class="image-size-grid">
+              <input
+                    id="width"
+                    type="number"
+                    step="1"
+                    min="1"
+                    placeholder="width"
+                  />
+                  <div class="x-container">×</div>
+                  <input
+                  id="height"
+                  type="number"
+                  step="1"
+                  min="1"
+                  placeholder="height"
+                />
+                <button onclick="updateCanvasSize()">update</button>
+              </div>
+            <div class="vertical-spacer-1"></div>
+<div class="button-row button-row--left">
+  <button onclick="setCanvasSize(512,512)">512×512</button> <button onclick="setCanvasSize(768,768)">768×768</button> <button onclick="setCanvasSize(1024,1024)">1024×1024</button>
+</div>
+            </fieldset>
+          
             </div>
           </div>
           <div class="row">
             <div class="card">
               <!-- <fieldset><legend>seed</legend></fieldset> -->
-              <!-- <div class="vertical-spacer"></div> -->
+              <!-- <div class="vertical-spacer-1_5"></div> -->
 
               <fieldset>
                 <legend>checkpoint</legend>
                 <div class="dropdown" id="checkpoint"></div>
               </fieldset>
-              <div class="vertical-spacer"></div>
+              <div class="vertical-spacer-1_5"></div>
               <fieldset>
                 <legend>sampling</legend>
                 <div class="sampler-params-grid">
@@ -614,18 +139,21 @@
                     id="random-seed"
                     title="Generate random seed"
                   >
-                    <img src="/static/dice.svg" />
+                    <img src="/static/images/dice.svg" />
                   </div>
                   <div
                     class="icon-button"
                     id="reuse-seed"
                     title="Reuse the current seed"
                   >
-                    <img src="/static/recycle.svg" />
+                    <img src="/static/images/recycle.svg" />
                   </div>
                 </div>
               </fieldset>
             </div>
+            
+          </div>
+          <div class="row">
             <div class="card">
               <fieldset>
                 <legend>LORA</legend>
@@ -652,7 +180,7 @@
                 <div id="phantom-space"></div>
                 <div class="button-row button-row--centered">
                   <button class="add-lora" id="add-lora">
-                    <img src="/static/add.svg" />
+                    <img src="/static/images/add.svg" />
                   </button>
                 </div>
               </fieldset>
@@ -667,6 +195,8 @@
                   QUEUE PROMPT
                 </button>
                 <button onclick="postInputArgs()">POST</button>
+                <button onclick="test()">TEST</button>
+
               </div>
             </div>
           </div>
@@ -687,6 +217,8 @@
             <div class="card">
               <fieldset>
                 <legend>conditioning</legend>
+                <div class="label-textarea">grounding boxes</div>
+
                 <div id="grounding-boxes">
                   <!-- <div
                   class="grounding-boxes-grid"
@@ -698,9 +230,9 @@
                   <button id="hide-all">HIDE ALL</button>
                   <button id="delete-all">DELETE ALL</button>
                 </div>
-                <div class="vertical-spacer"></div>
+                <div class="vertical-spacer-1_5"></div>
                 <!-- </fieldset>
-              <div class="vertical-spacer"></div>
+              <div class="vertical-spacer-1_5"></div>
               <fieldset> -->
                 <!-- <legend>conditioning</legend> -->
                 <div class="label-textarea">positive</div>
@@ -710,23 +242,35 @@
                   rows="4"
                   placeholder="(4k, best quality, masterpiece:1.2), ultra high res, ultra detailed"
                 ></textarea>
-                <div class="vertical-spacer"></div>
+                <div class="vertical-spacer-1_5"></div>
                 <div class="label-textarea">negative</div>
                 <textarea
                   id="negative-conditioning"
                   name="negative-conditioning"
                   rows="4"
                 ></textarea>
-                <!-- <div class="vertical-spacer"></div> -->
+                <!-- <div class="vertical-spacer-1_5"></div> -->
               </fieldset>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <a href="https://github.com/mut-ex" target="_blank" rel="noopener noreferrer">   <footer>Made by mut-ex</footer></a>
+        <a
+          href="https://github.com/mut-ex"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <footer>Made by mut-ex - (V{{version_number}})</footer></a
+        >
       </div>
     </main>
   </body>
-  <script src="/static/script.js"></script>
+  <script>var secret_message="test"</script>
+  <script src="{{url_for('static',filename="js/nodes.js")}}"></script>
+  <script src="{{url_for('static',filename="js/draw.js")}}"></script>
+
+  <script src="{{url_for('static',filename="js/toast.js")}}"></script>
+  <script src="{{url_for('static',filename="js/extra.js")}}"></script>
+  <script src="{{url_for('static',filename="js/script.js")}}"></script>
 </html>
