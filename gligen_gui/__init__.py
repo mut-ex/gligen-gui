@@ -78,5 +78,7 @@ def create_app(comfy_port=8188):
       BOXES = [box[1] for box in input_args["boxes"]]
       BASE_PROMPT = input_args['positive_prompt']
       return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+  
+  print(f"Go to: http://127.0.0.1:5000/port/{comfy_port}")
     
   return app
