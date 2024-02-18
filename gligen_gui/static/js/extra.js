@@ -32,39 +32,7 @@ var colorSet = new Set([
 ]);
 
 var iteratorColors = colorSet.values();
-// var fig = {
-//   x: null,
-//   y: null,
-//   width: null,
-//   height: null,
-//   mbDown: false,
-//   currColor: null,
-//   boxMap: null,
-// };
 
-// const _boxMap = { myBoxMap: getMap("boxes") || new Map() };
-// // const boxMap = new Proxy(_boxMap, {
-// //   get: function (target, prop, receiver) {
-// //     console.log("In GET");
-// //     console.log("target=", target);
-// //     console.log("prop=", prop);
-// //     console.log("receiver=", receiver);
-// //     console.log(target.myBoxMap.get(prop));
-// //     return target.myBoxMap.get(prop);
-// //   },
-// //   set(target, prop, value) {
-// //     console.log("In SET");
-// //     console.log("target=", target, "prop=", prop, "receiver=", receiver);
-// //     // return Reflect.set(...arguments);
-// //     target.myBoxMap.set(...arguments);
-// //   },
-// // });
-
-// const boxMap = {
-//   box_map: getMap("boxes") || new Map(),
-
-//   set
-// };
 const State = {
   _boxMap: getMap("boxes") || new Map(),
   set boxMap(val) {
@@ -110,7 +78,7 @@ const State = {
   get width() {
     return JSON.parse(localStorage.width);
   },
-  
+
   set height(val) {
     localStorage.height = JSON.stringify(val);
   },
@@ -231,7 +199,7 @@ function getMap(name) {
   return new Map(JSON.parse(localStorage.getItem(name)));
 }
 
-// Writes the given man to local storage by flattening it first
+// Writes the given map to local storage by flattening it first
 function setMap(name, m) {
   localStorage.setItem(name, JSON.stringify(Array.from(m)));
 }
@@ -246,18 +214,4 @@ function getPort() {
     return split[2];
   }
   console.log(currentUrl.pathname);
-}
-
-function test() {
-  let obj = {
-    _property: new Map(), // this is the actual property
-    get property() {
-      console.log("Property accessed!");
-      return this._property;
-    },
-  };
-
-  console.log(obj.property); // This will log 'Property accessed!' and then 'default value'
-  obj.property.set("1", "hello");
-  console.log(obj.property); // This will log 'Property accessed!' and then 'default value'
 }

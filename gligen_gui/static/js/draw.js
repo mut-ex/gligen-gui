@@ -63,20 +63,10 @@ function handleMouseEvent(event, mouse_event) {
       }
       break;
     case "mousemove":
-      // let el = document.getElementById('mouse-pos-id');
-      // el.innerHTML = `(${String(mouse_pos.x)},${String(mouse_pos.y)})`;
       if (State.mbDown === true) {
         State.width = mouse_pos.x - State.x;
         State.height = mouse_pos.y - State.y;
 
-        // if (State.width < 0) {
-        //   State.width = State.x - mouse_pos.x;
-        //   State.x = mouse_pos.x;
-        // }
-        // if (State.height < 0) {
-        //   State.height = State.y - mouse_pos.y;
-        //   State.y = mouse_pos.y;
-        // }
         if (Math.abs(State.width) >= 8 && Math.abs(State.height) >= 8) {
           clearCanvas("canvas_temp");
           drawBox(
@@ -85,18 +75,16 @@ function handleMouseEvent(event, mouse_event) {
               y: State.y,
               width: State.width,
               height: State.height,
-              prompt:'',
-              hide:false,
+              prompt: "",
+              hide: false,
             },
             "canvas_temp"
           );
         }
-        // drawTemporaryRectangle(x, y, width, height);
       }
       break;
   }
 }
-
 
 // Deletes the given box
 function deleteBox(box, box_id) {
@@ -104,7 +92,6 @@ function deleteBox(box, box_id) {
   State.boxMap.delete(box_id);
   clearCanvas("canvas_main");
   drawBoxes();
-  // setMap("boxes", State.boxMap);
 }
 
 // Adds the given box to the box map
@@ -122,10 +109,13 @@ function newBox(x, y, width, height) {
     width: width,
     height: height,
     color: State.currColor,
-    prompt: '',
+    prompt: "",
     hide: false,
   };
-  return { id: new_id, box: new_box };
+  return {
+    id: new_id,
+    box: new_box,
+  };
 }
 
 // Draws the a text centered within the given box parameters and on the provided canvas context
@@ -156,7 +146,7 @@ function drawBoxes() {
 
 // Draws a box object on the canvas with the given canvas_id
 function drawBox(box, canvas_id) {
-  console.log(box)
+  console.log(box);
   if (box.hide === true) {
     return;
   }
@@ -164,7 +154,7 @@ function drawBox(box, canvas_id) {
   let ctx = canvas.getContext("2d");
   ctx.strokeStyle = box.color || State.currColor;
   ctx.strokeRect(box.x, box.y, box.width, box.height);
-  console.log(box.prompt, box.prompt.length)
+  console.log(box.prompt, box.prompt.length);
   if (box.prompt.length === 0) {
     drawTextCenter(
       ctx,
@@ -287,7 +277,6 @@ function addTableRow(box, box_id, map) {
   });
 
   animateCSS(row_id, "fadeIn");
-  // new_row.classList.add('enter-animation');
   prompt_input.focus();
   return new_row;
 }

@@ -50,6 +50,6 @@ function addToast(header, body, is_error = false, timeout = 5000) {
 var idx = 0;
 
 function testToast() {
-  addToast(`toast #${idx}`, "The prompt<br>sdfsdf<br> was queued succesfully!");
+  addToast(`toast #${idx}`, "This is a test message!");
   idx += 1;
 }

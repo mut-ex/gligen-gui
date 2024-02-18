@@ -7,8 +7,6 @@ function requestGET(endpoint, handler) {
   })
     .then((response) => response.json())
     .then((data) => {
-      // console.log('get data response:', data)
-      // handleGetResponse(endpoint, data);
       handler(endpoint, data);
     });
 }
@@ -23,8 +21,6 @@ function requestPOST(endpoint, data, handler) {
   })
     .then((response) => response.json())
     .then((data) => {
-      // console.log('get data response:', data)
-      // handleGetResponse(endpoint, data);
       handler(endpoint, data);
     });
 }
@@ -190,10 +186,8 @@ function initWebSocket() {
             if (State.prompt_id) {
               let pid = response[State.prompt_id];
               let images = pid.outputs[State.output_image_node].images;
-              //console.log("Images", images);
               images.forEach((image) => {
                 let img_url = `/view?filename=${image.filename}&subfolder=${image.subfolder}&type=${image.type}`;
-                //console.log(img_url);
                 getImage(img_url);
               });
             }
@@ -211,7 +205,10 @@ function queuePrompt() {
   initWebSocket();
   requestPOST(
     "/prompt",
-    { prompt: prompt, client_id: "1122" },
+    {
+      prompt: prompt,
+      client_id: "1122",
+    },
     (endpoint, response) => {
       if (response.error) {
         addToast(
@@ -319,9 +316,7 @@ function loadSamplerList() {
 // Loads the list of loras and populates the dropdown
 function loadLoraList() {
   requestGET("/object_info/LoraLoaderModelOnly", (endpoint, data) => {
-    // console.log(data);
     let lora_list = data.LoraLoaderModelOnly.input.required.lora_name[0];
-    // console.log(lora_list);
     State.complete_lora_list = lora_list;
   });
 }
@@ -331,8 +326,6 @@ function deleteLora(event) {
   let x = getMap("selected_loras");
   x.delete(uuid);
   setMap("selected_loras", x);
-  //  console.log("now", x)
-  //  State.selected_loras = State.selected_loras;
   event.target.parentNode.parentNode.remove();
 }
 
@@ -363,8 +356,6 @@ function addLora(event, uuid = null) {
   select = document.createElement("select");
   select.classList.add("dropdown");
   select.id = `loraselect-${uuid}`;
-  // console.log('lookup', State.selected_loras.get(uuid));
-
   grid.appendChild(select);
 
   lora_strength = document.createElement("input");
@@ -406,9 +397,6 @@ function addLora(event, uuid = null) {
     option.value = lora_name;
     option.innerHTML = lora_name;
     select.appendChild(option);
-    // dropdown_option.addEventListener('mouseleave', (event) => {
-    //   dd_content.style.display = 'none';
-    // });
   });
 
   try {
@@ -446,7 +434,9 @@ const animateCSS = (element_id, animation, prefix = "animate__") =>
       );
       resolve("Animation ended");
     }
-    node.addEventListener("animationend", handleAnimationEnd, { once: true });
+    node.addEventListener("animationend", handleAnimationEnd, {
+      once: true,
+    });
   });
 
 function handleImage(e) {
@@ -523,7 +513,9 @@ function createCopyImageContextMenu() {
       const canvas_image = document.getElementById("canvas_image");
       canvas_image.toBlob((blob) =>
         navigator.clipboard.write([
-          new window.ClipboardItem({ "image/png": blob }),
+          new window.ClipboardItem({
+            "image/png": blob,
+          }),
         ])
       );
     });
@@ -533,7 +525,9 @@ function createCopyImageContextMenu() {
     .addEventListener("click", function () {
       composeImage().toBlob((blob) =>
         navigator.clipboard.write([
-          new window.ClipboardItem({ "image/png": blob }),
+          new window.ClipboardItem({
+            "image/png": blob,
+          }),
         ])
       );
     });
@@ -584,10 +578,10 @@ function updateCanvasSize() {
 
 // Sets the canvas size
 function setCanvasSize(width, height) {
-  let aspect_ratio = width/height
+  let aspect_ratio = width / height;
   let sf_x = width / State.canvas_width;
   let sf_y = height / State.canvas_height;
-  console.log("aspect ratio=", aspect_ratio)
+  console.log("aspect ratio=", aspect_ratio);
 
   // if (aspect_ratio > 1){
   //   width = 512
@@ -617,24 +611,21 @@ function setCanvasSize(width, height) {
     c.height = height;
     ctx.font = `bold ${22 * (Math.max(width, height) / 512)}px courier`;
     ctx.lineWidth = 4 * (Math.max(width, height) / 512);
-    // ctx.scale(1/sf_x, 1/sf_y)
   });
 
   if (State.boxMap.size > 0) {
     let table = document.getElementById("grounding-boxes");
-    // if (table) table.remove();
-    table.innerHTML = ''
+    table.innerHTML = "";
     clearCanvas("canvas_main");
 
     State.boxMap.forEach((box, box_id, map) => {
-      // drawBox(box, "canvas_main");
       box.x = box.x * sf_x;
       box.width = box.width * sf_x;
-      box.width = Math.floor(box.width/ 8 + 0.5) * 8;
+      box.width = Math.floor(box.width / 8 + 0.5) * 8;
 
       box.y = box.y * sf_y;
       box.height = box.height * sf_y;
-      box.height = Math.floor(box.height/ 8 + 0.5) * 8;
+      box.height = Math.floor(box.height / 8 + 0.5) * 8;
 
       addTableRow(box, box_id, map);
       drawBox(box, "canvas_main");
@@ -655,8 +646,6 @@ function loadCanvasSize() {
   let widthInput = document.getElementById("width");
   let heightInput = document.getElementById("height");
 
-  // widthInput.addEventListener("change", ())
-
   widthInput.value = width;
   heightInput.value = height;
 
@@ -664,8 +653,6 @@ function loadCanvasSize() {
 }
 
 window.addEventListener("load", () => {
-  // getCheckpointList();
-  // const message = {{ fla_message}}
   const port = getPort();
   console.log("ComfyUI port = ", port);
   State.comfy_ui_port = port;
@@ -700,14 +687,9 @@ window.addEventListener("load", () => {
   loadSamplerList();
   loadLoraList();
   State.selected_loras.forEach((value, key) => {
-    // console.log(key, value);
     addLora(null, key);
   });
 
-  // console.log(State.boxMap);
-  // setCanvasSize(State., 512);
-  // console.log(`${State.canvas_width} x ${State.canvas_height}`)
-  // updateCanvasSize(State.canvas_width, State.canvas_height);
   document.getElementById("fileInput").addEventListener("change", handleImage);
 
   State.boxMap = State.boxMap || new Map();
@@ -763,7 +745,6 @@ window.addEventListener("load", () => {
     });
     clearCanvas("canvas_main");
     drawBoxes();
-    // setMap("boxes", State.boxMap);
   });
 
   document.getElementById("hide-all").addEventListener("click", (event) => {
@@ -775,7 +756,6 @@ window.addEventListener("load", () => {
       icon_button_eye.style.opacity = "0.5";
     });
     clearCanvas("canvas_main");
-    // setMap("boxes", State.boxMap);
   });
 
   document.getElementById("delete-all").addEventListener("click", (event) => {
@@ -786,7 +766,6 @@ window.addEventListener("load", () => {
     });
     clearCanvas("canvas_main");
     drawBoxes();
-    // setMap("boxes", State.boxMap);
   });
 
   let canvas_temp = document.getElementById("canvas_temp");
