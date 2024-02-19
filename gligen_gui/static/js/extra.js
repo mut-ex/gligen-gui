@@ -215,3 +215,50 @@ function getPort() {
   }
   console.log(currentUrl.pathname);
 }
+
+// Toggle boxes
+function toggleBoxes(button) {
+  let icon_button_eye;
+  let buttonText;
+
+  let allHidden = false;
+
+  if (State.boxMap.size === 0) {
+    console.error("Box map is empty.");
+    return;
+  }
+
+  // Intialize button text based on the current state
+  buttonText = allHidden ? "Show All" : "Hide All";
+  button.textContent = buttonText;
+
+  State.boxMap.forEach((box) => {
+    if (!box.hide) {
+      allHidden = true;
+      return;
+    }
+  });
+
+  // Toggle the hide property of each box
+  State.boxMap.forEach((box, box_id) => {
+    box.hide = !box.hide;
+
+    icon_button_eye = document.getElementById(`eye-button-${box_id}`);
+    if (box.hide) {
+      icon_button_eye.src = "/static/images/eye-off.svg";
+      icon_button_eye.style.opacity = "0.5";
+    } else {
+      icon_button_eye.src = "/static/images/eye-on.svg";
+      icon_button_eye.style.opacity = "1";
+    }
+  });
+
+  clearCanvas("canvas_main");
+
+  // Redraw the boxes to reflect the updated visibility state
+  drawBoxes();
+
+  // Update button text based on the current state
+  buttonText = allHidden ? "Show All" : "Hide All";
+  button.textContent = buttonText;
+}

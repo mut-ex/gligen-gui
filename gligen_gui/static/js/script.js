@@ -735,27 +735,8 @@ window.addEventListener("load", () => {
 
   document.getElementById("add-lora").addEventListener("click", addLora);
 
-  document.getElementById("show-all").addEventListener("click", (event) => {
-    let icon_button_eye;
-    State.boxMap.forEach((box, box_id, map) => {
-      box.hide = false;
-      icon_button_eye = document.getElementById(`eye-button-${box_id}`);
-      icon_button_eye.src = "/static/images/eye-on.svg";
-      icon_button_eye.style.opacity = "1";
-    });
-    clearCanvas("canvas_main");
-    drawBoxes();
-  });
-
-  document.getElementById("hide-all").addEventListener("click", (event) => {
-    let icon_button_eye;
-    State.boxMap.forEach((box, box_id, map) => {
-      box.hide = true;
-      icon_button_eye = document.getElementById(`eye-button-${box_id}`);
-      icon_button_eye.src = "/static/images/eye-off.svg";
-      icon_button_eye.style.opacity = "0.5";
-    });
-    clearCanvas("canvas_main");
+  document.getElementById("toggle-all").addEventListener("click", (event) => {
+    toggleBoxes(document.getElementById("toggle-all"));
   });
 
   document.getElementById("delete-all").addEventListener("click", (event) => {
