@@ -102,7 +102,7 @@ function addBox(id, box) {
 
 // Creates and returns a new box and box id
 function newBox(x, y, width, height) {
-  let new_id = crypto.randomUUID();
+  let new_id = "_" + String(Math.floor(Math.random() * 18446744073709551615));
   let new_box = {
     x: x,
     y: y,
