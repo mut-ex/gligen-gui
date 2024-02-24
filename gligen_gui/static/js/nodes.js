@@ -10,6 +10,18 @@ function nodeCheckpointLoaderSimple(name) {
   };
 }
 
+function nodeVAELoader(name) {
+  return {
+    inputs: {
+      vae_name: name,
+    },
+    class_type: "VAELoader",
+    _meta: {
+      title: "Load VAE",
+    }
+  }
+}
+
 function nodeKSampler(
   seed,
   steps,
@@ -67,11 +79,11 @@ function nodeCLIPTextEncode(prompt, model_in) {
   };
 }
 
-function nodeVAEDecode(model_in, samples_in) {
+function nodeVAEDecode(input_provider, provider_output_index, samples_in) {
   return {
     inputs: {
       samples: [String(samples_in), 0],
-      vae: [String(1), 2],
+      vae: [String(input_provider), provider_output_index],
     },
     class_type: "VAEDecode",
     _meta: {

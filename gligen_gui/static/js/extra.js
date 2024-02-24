@@ -109,6 +109,13 @@ const State = {
     return localStorage.checkpoint_name;
   },
 
+  set vae_name(val) {
+    localStorage.vae_name = val;
+  },
+  get vae_name() {
+    return localStorage.vae_name || "default";
+  },
+
   set sampler_name(val) {
     localStorage.sampler_name = val;
   },
@@ -192,6 +199,12 @@ const State = {
   get comfy_ui_port() {
     return localStorage.comfy_ui_port;
   },
+  set comfy_ui_host(val) {
+    localStorage.comfy_ui_host = val;
+  },
+  get comfy_ui_host() {
+    return localStorage.comfy_ui_host;
+  },
 };
 
 // Retrieves the map with the given name from local storage
@@ -204,14 +217,24 @@ function setMap(name, m) {
   localStorage.setItem(name, JSON.stringify(Array.from(m)));
 }
 
-function getPort() {
+function getHostPort() {
   const currentUrl = new URL(window.location.href);
+  console.log(currentUrl.pathname);
   const split = currentUrl.pathname.split("/");
   if (split.length === 2) {
-    return "8188";
+    return Array("127.0.0.1","8188");
   }
+  port = "8188";
+  host = "127.0.0.1"
   if (split[1] === "port") {
-    return split[2];
+    port = split[2];
   }
-  console.log(currentUrl.pathname);
+  if (split.length === 5 && split[3] === "host") {
+    host = split[4];
+    
+  }
+  
+  console.log("Split len = ",split.length);
+  return  Array(host,port)
+  
 }
