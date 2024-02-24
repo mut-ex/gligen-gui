@@ -109,6 +109,13 @@ const State = {
     return localStorage.checkpoint_name;
   },
 
+  set vae_name(val) {
+    localStorage.vae_name = val;
+  },
+  get vae_name() {
+    return localStorage.vae_name || "default";
+  },
+
   set sampler_name(val) {
     localStorage.sampler_name = val;
   },

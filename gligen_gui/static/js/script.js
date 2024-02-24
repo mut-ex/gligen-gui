@@ -142,10 +142,21 @@ function buildPrompt() {
     negativeID,
     latentID
   );
+  
+  // if vae_name is set to "default", use vae provided by checkpoint loader
+  // if vae_name contains vae checkpoint name, load it and use in nodeVAEDecode 
+  let vaeProviderId = 1;
+  let vaeProviderOutputIdx = 2;
+  if (State.vae_name != "default") {
+    idx += 1;
+    vaeProviderId = idx;
+    vaeProviderOutputIdx = 0;
+    prompt[String(idx)] = nodeVAELoader(State.vae_name);
+  }
 
   idx += 1;
   let vaedecodeID = idx;
-  prompt[String(vaedecodeID)] = nodeVAEDecode(modelID, ksamplerID);
+  prompt[String(vaedecodeID)] = nodeVAEDecode(vaeProviderId, vaeProviderOutputIdx, ksamplerID);
 
   idx += 1;
   let saveimageID = idx;
@@ -280,6 +291,45 @@ function loadCheckpointList() {
       if (checkpoint_list.includes(State.checkpoint_name))
         checkpoint_select.value = State.checkpoint_name;
     }
+  });
+}
+
+function loadVAEList() {
+  requestGET("/object_info/VAELoader", (endpoint, data) => {
+    let vae_list =
+      data.VAELoader.input.required.vae_name[0];
+
+    console.log("selected vae = " + State.vae_name);
+    
+    State.vae_list = vae_list;
+    let vae_dropdown = document.getElementById("vae");
+    let vae_select = document.createElement("select");
+    vae_dropdown.appendChild(vae_select);
+    let option = document.createElement("option");
+    option.disabled = false;
+    option.selected = true;
+    option.innerHTML = "default";
+    option.title = "default";
+    option.value = "default";
+    vae_select.appendChild(option);
+    vae_list.forEach((vae_name) => {
+      option = document.createElement("option");
+      option.title = vae_name;
+      option.value = vae_name;
+      option.innerHTML = vae_name;
+      vae_select.appendChild(option);
+    });
+
+    vae_select.addEventListener("change", (event) => {
+      console.log(vae_select.value);
+      State.vae_name = vae_select.value;
+    });
+
+    if (State.vae_name) {
+      if (vae_list.includes(State.vae_name))
+        vae_select.value = State.vae_name;
+    } 
+
   });
 }
 
@@ -690,6 +740,7 @@ window.addEventListener("load", () => {
   loadCheckpointList();
   loadSamplerList();
   loadLoraList();
+  loadVAEList();
   State.selected_loras.forEach((value, key) => {
     addLora(null, key);
   });
