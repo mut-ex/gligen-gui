@@ -171,7 +171,7 @@ function getImage(endpoint) {
 
 function initWebSocket() {
   const socket = new WebSocket(
-    `ws://127.0.0.1:${State.comfy_ui_port || "8188"}/ws?clientId=1122`
+    `ws://${State.comfy_ui_host || "127.0.0.1"}:${State.comfy_ui_port || "8188"}/ws?clientId=1122`
   );
   socket.addEventListener("open", (event) => {});
   socket.addEventListener("message", (event) => {
@@ -653,9 +653,13 @@ function loadCanvasSize() {
 }
 
 window.addEventListener("load", () => {
-  const port = getPort();
+  const hostport = getHostPort();
+  const host = hostport[0]
+  const port = hostport[1]
   console.log("ComfyUI port = ", port);
+  console.log("ComfyUI host = ", host);
   State.comfy_ui_port = port;
+  State.comfy_ui_host = host;
 
   if (!State.seed) {
     State.seed = getSeed();
