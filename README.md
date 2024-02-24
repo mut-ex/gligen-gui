@@ -31,10 +31,15 @@ Clone this repository
 Then to start the GUI, run the following command
 
     flask --app 'gligen_gui:create_app(8188)' run --port 5000
+    
+If call comfyui interfaces not located on the local machine.
+
+    flask --app 'gligen_gui:create_app(8188,"HOST_IP")' run --port 5000
 
 Note that this assumes your ComfyUI instance is using port 8188. If not, replace 8188 with the correct port number.
 
 Finally, open http://127.0.0.1:5000/port/8188 in your browser to start using the GUI. However change 8188 in the URL to the port used by ComfyUI if it is different.
+If call comfyui interfaces not located on the local machine. open http://127.0.0.1:5000/port/8188/host/HOST_IP
 
 ## How To Use
 
