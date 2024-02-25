@@ -26,9 +26,7 @@ function requestPOST(endpoint, data, handler) {
 }
 
 function getSeed() {
-  let arr = new Uint32Array(2);
-  window.crypto.getRandomValues(arr);
-  return String(BigInt(arr[0]) + (BigInt(arr[1]) << BigInt(32)));
+  return String(Math.floor(Math.random() * 18446744073709551615));
 }
 
 function postInputArgs() {
