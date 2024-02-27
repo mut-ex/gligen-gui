@@ -197,6 +197,9 @@ const State = {
     localStorage.comfy_ui_host = val;
   },
   get comfy_ui_host() {
+    if (localStorage.comfy_ui_host === undefined) {
+      return "127.0.0.1"
+    }
     return localStorage.comfy_ui_host;
   }
 };
