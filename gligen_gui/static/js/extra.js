@@ -192,6 +192,13 @@ const State = {
   get comfy_ui_port() {
     return localStorage.comfy_ui_port;
   },
+
+  set confy_ui_host(val) {
+    localStorage.comfy_ui_host = val;
+  },
+  get comfy_ui_host() {
+    return localStorage.comfy_ui_host;
+  }
 };
 
 // Retrieves the map with the given name from local storage
@@ -214,4 +221,9 @@ function getPort() {
     return split[2];
   }
   console.log(currentUrl.pathname);
+}
+
+
+function getHost() {
+
 }

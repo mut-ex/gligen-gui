@@ -19,6 +19,11 @@ def create_app(comfy_host="127.0.0.1",comfy_port=8188):
       return flask.render_template('base.html', version_number=VERSION)
 
 
+  @app.route("/host")
+  def get_hostname():
+      return comfy_host
+
+
   @app.route("/object_info/<class_name>", methods=['GET'])
   def get_object_info(class_name=None):
       print("Get Object Info: ", class_name)

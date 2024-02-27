@@ -171,7 +171,7 @@ function getImage(endpoint) {
 
 function initWebSocket() {
   const socket = new WebSocket(
-    `ws://127.0.0.1:${State.comfy_ui_port || "8188"}/ws?clientId=1122`
+    `ws://${State.comfy_ui_host}:${State.comfy_ui_port || "8188"}/ws?clientId=1122`
   );
   socket.addEventListener("open", (event) => {});
   socket.addEventListener("message", (event) => {
@@ -656,6 +656,10 @@ window.addEventListener("load", () => {
   const port = getPort();
   console.log("ComfyUI port = ", port);
   State.comfy_ui_port = port;
+  // 开始设置host
+  requestGET("/host",(endpoint,data)=>{
+    State.confy_ui_host = data
+  })
 
   if (!State.seed) {
     State.seed = getSeed();
