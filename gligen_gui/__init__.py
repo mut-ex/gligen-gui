@@ -8,7 +8,7 @@ VERSION = "0.1"
 
 global BOXES
 global BASE_PROMPT
-def create_app(comfy_port=8188):
+def create_app(comfy_host="127.0.0.1",comfy_port=8188):
   app = flask.Flask(__name__, instance_relative_config=True)
   app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -23,7 +23,7 @@ def create_app(comfy_port=8188):
   def get_object_info(class_name=None):
       print("Get Object Info: ", class_name)
       req = urllib.request.Request(
-          f"http://127.0.0.1:{comfy_port}/object_info/{class_name}")
+          f"http://{comfy_host}:{comfy_port}/object_info/{class_name}")
       try:
           response = urllib.request.urlopen(req)
           return response
@@ -37,12 +37,12 @@ def create_app(comfy_port=8188):
       if len(args) > 0:
           queries = urllib.parse.urlencode(dict(args))
           try:
-              res = urllib.request.urlopen(f"http://127.0.0.1:{comfy_port}/{endpoint}?{queries}")
+              res = urllib.request.urlopen(f"http://{comfy_host}:{comfy_port}/{endpoint}?{queries}")
               return res
           except urllib.error.HTTPError as e:
               return e.read()
 
-      req = urllib.request.Request(f"http://127.0.0.1:{comfy_port}/{endpoint}")
+      req = urllib.request.Request(f"http://{comfy_host}:{comfy_port}/{endpoint}")
       try:
           response = urllib.request.urlopen(req)
           return response
@@ -54,7 +54,7 @@ def create_app(comfy_port=8188):
   def post_endpoint(endpoint=None):
       payload = flask.request.get_json()
       data = json.dumps(payload).encode('utf-8')
-      req = urllib.request.Request(f"http://127.0.0.1:{comfy_port}/{endpoint}",
+      req = urllib.request.Request(f"http://{comfy_host}:{comfy_port}/{endpoint}",
                                   data=data)
       try:
           response = urllib.request.urlopen(req)
