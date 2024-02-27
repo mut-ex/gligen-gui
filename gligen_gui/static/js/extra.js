@@ -228,5 +228,14 @@ function getPort() {
 
 
 function getHost() {
-
+  const currentUrl = new URL(window.location.href);
+  const split = currentUrl.pathname.split("/");
+  console.log(split)
+  if (split.length === 2) {
+    return "127.0.0.1";
+  }
+  if (split[3] === "host") {
+    return split[4];
+  }
+  console.log(currentUrl.pathname);
 }

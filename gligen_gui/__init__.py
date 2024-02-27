@@ -14,8 +14,12 @@ def create_app(comfy_host="127.0.0.1",comfy_port=8188):
 
   @app.route("/")
   @app.route("/port/<port_number>")
-  def index(port_number=8188):
+  @app.route("/port/<port_number>/host/<host_name>")
+  def index(port_number=8188, host_name=None):
       print(port_number)
+      if host_name:
+          print(host_name)
+      # 根据是否有host_name来决定接下来的逻辑
       return flask.render_template('base.html', version_number=VERSION)
 
 
@@ -84,6 +88,6 @@ def create_app(comfy_host="127.0.0.1",comfy_port=8188):
       BASE_PROMPT = input_args['positive_prompt']
       return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
   
-  print(f"Go to: http://127.0.0.1:5000/port/{comfy_port}")
+  print(f"Go to: http://127.0.0.1:5000/port/{comfy_port}/host/{comfy_host}")
     
   return app

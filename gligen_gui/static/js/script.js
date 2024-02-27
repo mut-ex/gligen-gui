@@ -657,9 +657,9 @@ window.addEventListener("load", () => {
   console.log("ComfyUI port = ", port);
   State.comfy_ui_port = port;
   // 开始设置host
-  requestGET("/host",(endpoint,data)=>{
-    State.confy_ui_host = data
-  })
+  const host = getHost();
+  console.log("ComfyUI host = ",host);
+  State.confy_ui_host = host;
 
   if (!State.seed) {
     State.seed = getSeed();
