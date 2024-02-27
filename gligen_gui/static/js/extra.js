@@ -192,6 +192,16 @@ const State = {
   get comfy_ui_port() {
     return localStorage.comfy_ui_port;
   },
+
+  set confy_ui_host(val) {
+    localStorage.comfy_ui_host = val;
+  },
+  get comfy_ui_host() {
+    if (localStorage.comfy_ui_host === undefined) {
+      return "127.0.0.1"
+    }
+    return localStorage.comfy_ui_host;
+  }
 };
 
 // Retrieves the map with the given name from local storage
@@ -212,6 +222,20 @@ function getPort() {
   }
   if (split[1] === "port") {
     return split[2];
+  }
+  console.log(currentUrl.pathname);
+}
+
+
+function getHost() {
+  const currentUrl = new URL(window.location.href);
+  const split = currentUrl.pathname.split("/");
+  console.log(split)
+  if (split.length === 2) {
+    return "127.0.0.1";
+  }
+  if (split[3] === "host") {
+    return split[4];
   }
   console.log(currentUrl.pathname);
 }
