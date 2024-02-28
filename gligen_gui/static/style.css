@@ -38,16 +38,16 @@
 }
 
 .context-menu {
-  transform-origin: 0 0;
-  transform: scale(0);
+  /* transform-origin: 0 0; */
+  /* transform: scale(0); */
   transition: all 0.2s ease-out;
   position: fixed;
   top: 0;
-  opacity: 0;
+  opacity: 1;
   /* left: 128px; */
   background-color: var(--color-4);
   border-radius: 4px;
-  display: flex;
+  display: none;
   flex-direction: column;
   /* min-width: max-content; */
   max-width: 256px;

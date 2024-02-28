@@ -32,31 +32,35 @@ function createContextMenu() {
     contextMenu.style.display = "none";
   });
   contextMenu.appendChild(button);
-
+  contextMenu.style.display = "none";
   document.body.appendChild(contextMenu);
 
   function placeContextMenu() {
     let target = document.getElementById("backgroundImageFitMode");
-    // contextMenu.style.display = "flex";
     let rect = target.getBoundingClientRect();
     let x = rect.left;
     let y = rect.top;
     contextMenu.style.left = x + 2 + "px";
     contextMenu.style.top = y + 2 + "px";
+    contextMenu.style.display = "flex";
   }
   // contextMenu.style.display = flex;
-  placeContextMenu();
+  // placeContextMenu();
   document
     .getElementById("backgroundImageFitMode")
     .addEventListener("click", function (e) {
       // e.preventDefault();
       placeContextMenu();
-      contextMenu.classList.add("context-menu-grow");
+      // contextMenu.classList.add("context-menu-grow");
     });
 
   contextMenu.addEventListener("mouseleave", function (e) {
-    // contextMenu.style.display = "none";
-    contextMenu.classList.remove("context-menu-grow");
+    contextMenu.style.display = "none";
+    // contextMenu.classList.remove("context-menu-grow");
+  });
+  document.addEventListener("wheel", function (e) {
+    contextMenu.style.display = "none";
+    // contextMenu.classList.remove("context-menu-grow");
   });
 }
 
@@ -85,8 +89,10 @@ class ToolTip {
       // ul.classList.add("context-menu-ul");
       this.ContextMenu.appendChild(ul);
     }
-
+    this.ContextMenu.style.display = "none";
     document.body.appendChild(this.ContextMenu);
+    document.addEventListener("wheel", this.onMouseLeave.bind(this));
+
     this.target.addEventListener("mouseenter", this.onMouseEnter.bind(this));
     this.ContextMenu.addEventListener(
       "mouseleave",
@@ -98,7 +104,6 @@ class ToolTip {
 
   onMouseEnter(e) {
     if (this.timeoutID) return;
-    this.timeoutID = setTimeout(showToolTip.bind(this), 500);
 
     function showToolTip() {
       let rect = this.target.getBoundingClientRect();
@@ -107,12 +112,14 @@ class ToolTip {
       this.ContextMenu.style.display = "flex";
       this.ContextMenu.style.left = x + 2 + "px";
       this.ContextMenu.style.top = y + 2 + "px";
-      this.ContextMenu.classList.add("context-menu-grow");
+      // this.ContextMenu.classList.add("context-menu-grow");
     }
+    this.timeoutID = setTimeout(showToolTip.bind(this), 500);
   }
 
   onMouseLeave(e) {
-    this.ContextMenu.classList.remove("context-menu-grow");
+    // this.ContextMenu.classList.remove("context-menu-grow");
+    this.ContextMenu.style.display = "none";
     this.cancelTimer();
   }
 
@@ -121,8 +128,6 @@ class ToolTip {
     this.timeoutID = null;
   }
 }
-
-function createToolTip() {}
 
 function getSeed() {
   let arr = new Uint32Array(2);
