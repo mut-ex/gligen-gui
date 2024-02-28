@@ -136,11 +136,9 @@ function postInputArgs() {
     if (box.caption) tags.push(box.caption);
   });
   tags = tags.join(";");
-  let positive_prompt = `${globalState.positivePrompt.replace(
-    /[\s;]+$/g,
-    ""
-  )};${tags}`;
-console.log("TAGS: ", tags)
+  let positivePrompt = globalState.positivePrompt || "";
+  let positive_prompt = `${positivePrompt.replace(/[\s;]+$/g, "")};${tags}`;
+  // console.log("TAGS: ", tags);
   requestPOST(
     "/input_args",
     {
@@ -148,7 +146,7 @@ console.log("TAGS: ", tags)
       boxes: Array.from(globalState.boxMap),
     },
     (endpoint, response) => {
-      console.log(response);
+      // console.log(response);
     }
   );
 }
@@ -299,12 +297,12 @@ function downloadBackgroundImage() {
 }
 
 function setCanvasSize(width, height) {
-  globalState.canvasWidth = width
-  globalState.canvasHeight = height
+  globalState.canvasWidth = width;
+  globalState.canvasHeight = height;
   AppSurface.resize(width, height);
   document.getElementById("width").value = AppSurface.width;
   document.getElementById("height").value = AppSurface.height;
-  globalState.saveToLocalStorage()
+  globalState.saveToLocalStorage();
 }
 
 var AppSurface;
@@ -316,8 +314,11 @@ window.addEventListener("load", () => {
 
   let mainCanvas = document.getElementById("main-canvas");
   AppSurface = new Whiteboard.Surface(mainCanvas);
-  console.log(globalState.canvasWidth, globalState.canvasHeight)
-  AppSurface.resize(globalState.canvasWidth || 512, globalState.canvasHeight || 512)
+  console.log(globalState.canvasWidth, globalState.canvasHeight);
+  AppSurface.resize(
+    globalState.canvasWidth || 512,
+    globalState.canvasHeight || 512
+  );
   // setCanvasSize(globalState.canvasWidth, globalState.canvasHeight)
   const port = getPort();
   globalState.comfyPort = port;
