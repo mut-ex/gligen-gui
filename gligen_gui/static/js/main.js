@@ -121,6 +121,7 @@ class ToolTip {
     this.timeoutID = null;
   }
 }
+
 function createToolTip() {}
 
 function getSeed() {
@@ -131,20 +132,20 @@ function getSeed() {
 
 function postInputArgs() {
   let tags = new Array();
-  State.boxMap.forEach((box, box_id, map) => {
-    if (box.prompt) tags.push(box.prompt);
+  globalState.boxMap.forEach((box, box_id, map) => {
+    if (box.caption) tags.push(box.caption);
   });
   tags = tags.join(";");
   let positive_prompt = `${globalState.positivePrompt.replace(
     /[\s;]+$/g,
     ""
   )};${tags}`;
-
+console.log("TAGS: ", tags)
   requestPOST(
     "/input_args",
     {
       positive_prompt: positive_prompt,
-      boxes: Array.from(State.boxMap),
+      boxes: Array.from(globalState.boxMap),
     },
     (endpoint, response) => {
       console.log(response);

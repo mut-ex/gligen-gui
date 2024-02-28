@@ -17,7 +17,7 @@ class _GlobalState {
       "outputImageNode",
       "promptID",
       "canvasWidth",
-      "canvasHeight"
+      "canvasHeight",
     ];
 
     this.arrayProps = [
@@ -95,6 +95,7 @@ class _GlobalState {
   }
 
   saveToLocalStorage() {
+    postInputArgs();
     localStorage.setItem("globalState", this.stringify());
   }
 
