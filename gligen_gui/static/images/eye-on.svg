@@ -1,3 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generator: Gravit.io -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation:isolate" viewBox="0 0 32 32" width="32pt" height="32pt"><defs><clipPath id="_clipPath_Cf3Z8CMPp8AWfSEYc1oTb4MLO0dJGDeu"><rect width="32" height="32"/></clipPath></defs><g clip-path="url(#_clipPath_Cf3Z8CMPp8AWfSEYc1oTb4MLO0dJGDeu)"><path d=" M 5.181 16 C 6.122 10.88 10.608 7 16 7 C 21.392 7 25.878 10.88 26.819 16 C 25.878 21.12 21.392 25 16 25 C 10.608 25 6.122 21.12 5.181 16 Z  M 16 21 C 18.761 21 21 18.761 21 16 C 21 13.239 18.761 11 16 11 C 13.239 11 11 13.239 11 16 C 11 18.761 13.239 21 16 21 Z  M 16 19 C 14.343 19 13 17.657 13 16 C 13 14.343 14.343 13 16 13 C 17.657 13 19 14.343 19 16 C 19 17.657 17.657 19 16 19 Z " fill="#74c69d"/></g></svg>
+<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="#80ed99" stroke-width="2"/>
+<path d="M6.94975 7.05025C9.68342 4.31658 14.1156 4.31658 16.8492 7.05025L18.9706 9.17157C20.3039 10.5049 20.9706 11.1716 20.9706 12C20.9706 12.8284 20.3039 13.4951 18.9706 14.8284L16.8492 16.9497C14.1156 19.6834 9.68342 19.6834 6.94975 16.9497L4.82843 14.8284C3.49509 13.4951 2.82843 12.8284 2.82843 12C2.82843 11.1716 3.49509 10.5049 4.82843 9.17157L6.94975 7.05025Z" stroke="#80ed99" stroke-width="2" stroke-linejoin="round"/>
+</svg>

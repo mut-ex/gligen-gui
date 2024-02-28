@@ -10,266 +10,358 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
     <link rel="stylesheet" href="/static/toast.css" />
-    <link rel="stylesheet" href="{{url_for('static',filename="style.css")}}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename="style.css") }}"
+    />
   </head>
+  <!-- <div class="veil"></div> -->
+  <div id="modal-container">
+<div id="modal">
+  <p>Are you sure you want to clear all settings?</p>
+  <div class="modal-buttons">
+  <button id="clearYes">yes</button>
+  <button id="clearNo">no</button>
+  </div>
 
+  </div></div>
+  <!-- <div class="context-menu">
+    <div class="context-menu-heading">Select background fit mode</div>
+    <div class="context-menu-button">center</div>
+    <div class="context-menu-button">stretch</div>
+    <div class="context-menu-button">fit vertically</div>
+    <div class="context-menu-button">fit horizontally</div>
+  </div> -->
   <body>
     <div id="toast-container">
       <!-- <div class="toast">
-        <div class="toast-header-row">
-          <div class="toast-header">prompt queued!</div>
-          <button class="toast-close-button">🗙</button>
-        </div>
-        <p>Toast body</p>
-      </div>
-
-      <div class="toast">
-        <div class="toast-header-row">
-          <div class="toast-header">Toast 2!</div>
-          <button class="toast-close-button">🗙</button>
-        </div>
-        <p>Toast body</p>
-      </div> -->
+            <div class="toast-header-row">
+              <div class="toast-header">prompt queued!</div>
+              <button class="toast-close-button">🗙</button>
+            </div>
+            <p>Toast body</p>
+            </div>
+            
+            <div class="toast">
+            <div class="toast-header-row">
+              <div class="toast-header">Toast 2!</div>
+              <button class="toast-close-button">🗙</button>
+            </div>
+            <p>Toast body</p>
+            </div> -->
     </div>
+
     <main>
-      <div class="row">
-        <div class="column column-canvas">
-          <div class="row">
-            <div class="canvas-container">
-              <canvas id="canvas_image" style="z-index: 0"></canvas>
-              <canvas id="canvas_main" style="z-index: 1"></canvas>
-              <canvas id="canvas_temp" style="z-index: 2"></canvas>
+      <!-- <section class="card"> -->
+      <div class="column-left">
+        <section class="card card--solid">
+          <figure class="canvas-wrapper">
+            <canvas id="main-canvas" width="512" height="512"></canvas>
+            <!-- <div id="canvasSizeLabel">512px × 512px</div>  -->
+          </figure>
+          <div class="resize-input-grid">
+            <select id="selectCanvasSize" title="Pick a preset to resize the canvas">
+              <option value="" selected>— select a preset —</option>
+              <option value="512,512">512 × 512 — (1:1)</option>
+              <option value="768,768">768 × 768 — (1:1)</option>
+              <option value="1024,1024">1024 × 1024 — (1:1)</option>
+              <option value="512,768">512 × 768 — (2:3)</option>
+              <option value="512,682">512 × 682 — (3:4)</option>
+              <option value="768,512">768 × 512 — (3:2)</option>
+              <option value="682,512">682 × 512 — (4:3)</option>
+              <option value="910,512">910 × 512 — (16:9)</option>
+              <option value="952,512">952 × 512 — (1.85:1)</option>
+              <option value="1024,512">1024 × 512 — (2:1)</option>
+              <option value="1224,512">1224 × 512 — (2.39:1)</option>
+            </select>
+            <input
+              id="width"
+              type="number"
+              step="1"
+              min="8"
+              max="1024"
+              placeholder="width"
+              title="The width of the canvas"
+            />
+            <!-- <div class="x-container">×</div> -->
+            <input
+              id="height"
+              type="number"
+              step="1"
+              min="8"
+              max="1024"
+              placeholder="height"
+              title="The height of the canvas"
+            />
+            <button id="buttonSetCanvasSize" title="Apply the entered width and height to the canvas">update</button>
+
+            <input
+              type="file"
+              accept="image/*"
+              id="backgroundImageInput"
+              style="display: none"
+            />
+            <label
+              for="backgroundImageInput"
+              class="icon-button"
+              title="Set backdrop image"
+            >
+              <img src="/static/images/wallpaper.svg" />
+            </label>
+            <div
+              class="icon-button"
+              title="Set background image fit mode"
+              id="backgroundImageFitMode"
+            >
+              <img src="/static/images/background-mode.svg" />
             </div>
+            <div
+              class="icon-button"
+              id="downloadImage"
+              title="Save the image"
+              onclick="downloadBackgroundImage()"
+            >
+              <img src="/static/images/download-image.svg" />
+            </div>
+            <div
+            class="icon-button tooltip-target"
+            id="canvasInfo"
+          >
+            <img src="/static/images/information.svg" />
           </div>
+          </div>
+        </section>
+        <section class="card card--solid">
+          <fieldset>
+            <legend class="">checkpoint</legend>
+            <!-- <div class="add-padding"> -->
+            <div class="" id="checkpoint" ></div>
+            <!-- </div> -->
+          </fieldset>
 
-          <div class="row">
-          <div class="card">
-            <fieldset>
-            <div class="row button-row button-row--left">
-              <button id="download-image" onclick="downloadImage()">
-                download image
-              </button>
-              <div>
-                <input type="file" id="fileInput" style="display: none" />
-                <label for="fileInput" class="filepicker-button"
-                  >set canvas backdrop</label
-                >
-              </div>
-              <!-- <button onclick="testToast()">load image</button> -->
-            </div>
-            </fieldset>
-            <div class="vertical-spacer-1"></div>
-            
-            <fieldset>
-              <legend>image dimensions</legend>
+          <fieldset>
+            <legend class="">vae</legend>
+            <!-- <div class="add-padding"> -->
+            <div class="" id="vae"></div>
+            <!-- </div> -->
+          </fieldset>
 
-              <div class="image-size-grid">
+          <fieldset>
+            <legend class="">sampling</legend>
+            <div class="sampler-params-grid">
+              <!-- First Row -->
+              <label class="grid-label">steps</label>
+
               <input
-                    id="width"
-                    type="number"
-                    step="1"
-                    min="1"
-                    placeholder="width"
-                  />
-                  <div class="x-container">×</div>
-                  <input
-                  id="height"
-                  type="number"
-                  step="1"
-                  min="1"
-                  placeholder="height"
-                />
-                <button onclick="updateCanvasSize()">update</button>
-              </div>
-            <div class="vertical-spacer-1"></div>
-<div class="button-row button-row--left">
-  <button onclick="setCanvasSize(512,512)">512×512</button> <button onclick="setCanvasSize(768,768)">768×768</button> <button onclick="setCanvasSize(1024,1024)">1024×1024</button>
-</div>
-            </fieldset>
-          
-            </div>
-          </div>
-          <div class="row">
-            <div class="card">
-              <!-- <fieldset><legend>seed</legend></fieldset> -->
-              <!-- <div class="vertical-spacer-1_5"></div> -->
+                id="steps"
+                type="number"
+                step="1"
+                min="1"
+                max="10000"
+                value="20"
+                placeholder="20"
+              />
 
-              <fieldset>
-                <legend>checkpoint</legend>
-                <div class="dropdown" id="checkpoint"></div>
-              </fieldset>
-              <div class="vertical-spacer-1_5"></div>
-              <fieldset>
-                <legend>sampling</legend>
-                <div class="sampler-params-grid">
-                  <label class="grid-label">Steps</label>
-                  <input
-                    id="steps"
-                    type="number"
-                    step="1"
-                    min="1"
-                    max="10000"
-                    value="20"
-                    placeholder="20"
-                  />
-                  <label class="grid-label">cfg</label>
-                  <input
-                    id="cfg"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    max="100"
-                    value="8.0"
-                    placeholder="8.0"
-                  />
-                  <label class="grid-label">Sampler</label>
-                  <div class="dropdown grid-dropdown" id="sampler"></div>
-                </div>
-                <div class="seed-grid">
-                  <label class="grid-seed-label">seed</label>
-                  <input
-                    class="grid-seed-input"
-                    id="seed"
-                    type="number"
-                    step="1"
-                    min="0"
-                  />
-                  <div
-                    class="icon-button"
-                    id="random-seed"
-                    title="Generate random seed"
-                  >
-                    <img src="/static/images/dice.svg" />
-                  </div>
-                  <div
-                    class="icon-button"
-                    id="reuse-seed"
-                    title="Reuse the current seed"
-                  >
-                    <img src="/static/images/recycle.svg" />
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            
-          </div>
-          <div class="row">
-            <div class="card">
-              <fieldset>
-                <legend>LORA</legend>
-                <div id="lora-list">
-                  <!-- <div class="lora-selector-grid">
-                    <div class="dropdown lora-name">
-                      <div class="dropdown-target"></div>
-                      <div class="dropdown-content"></div>
-                    </div>
-                    <input
-                      class="lora-strength"
-                      type="number"
-                      step="0.1"
-                      min="-20"
-                      max="20"
-                      value="1.0"
-                      placeholder="1.0"
+              <label class="grid-label">cfg</label>
+
+              <input
+                id="cfg"
+                type="number"
+                step="0.1"
+                min="0"
+                max="100"
+                value="8.0"
+                placeholder="8.0"
+              />
+
+              <!-- Second Row -->
+              <label class="grid-label">sampler</label>
+
+              <div class="grid-dropdown" id="sampler"></div>
+
+              <label class="grid-label">scheduler</label>
+
+              <div class="grid-dropdown" id="scheduler"></div>
+
+              <!-- Third Row -->
+              <label class="grid-label">seed</label>
+
+              <input
+                class="grid-seed-input"
+                id="seed"
+                type="number"
+                step="1"
+                min="0"
+              />
+              <!-- <div class="seed-buttons-container"> -->
+
+              <label class="switch">
+                <input id="seed-mode-toggle" type="checkbox" />
+                <span class="slider" title="Select seedmode to use">
+                  <div class="slider-icon icon-active" title="Generate a random seed everytime" id="random-seed">
+                    <img
+                      id="random-icon"
+                      class="icon"
+                      src="/static/images/dice.svg"
                     />
-                    <div class="icon-button">
-                      <img src="/static/delete.svg" />
-                    </div>
-                  </div> -->
-                </div>
-                <div id="phantom-space"></div>
-                <div class="button-row button-row--centered">
-                  <button class="add-lora" id="add-lora">
-                    <img src="/static/images/add.svg" />
-                  </button>
-                </div>
-              </fieldset>
+                  </div>
+
+                  <div class="slider-icon" title="Reuse the current seed everytime" id="reuse-seed">
+                    <img
+                      id="reuse-icon"
+                      class="icon"
+                      src="/static/images/recycle.svg"
+                    /></div
+                ></span>
+              </label>
             </div>
-          </div>
-        </div>
-        <div class="column">
-          <div class="row">
-            <div class="card">
-              <div class="row button-row button-row--left">
-                <button id="queue-prompt" onclick="queuePrompt()">
-                  QUEUE PROMPT
+            <!-- <div class="seed-buttons-container">
+                <div
+                  class="icon-button"
+                  id="random-seed"
+                  title="Generate random seed"
+                >
+                  <img src="/static/images/dice.svg" />
+                </div>
+
+                <div
+                  class="icon-button"
+                  id="reuse-seed"
+                  title="Reuse the current seed"
+                >
+                  <img src="/static/images/recycle.svg" />
+                </div>
+              </div> -->
+            <!-- </div> -->
+            <div class="seed-grid"></div>
+          </fieldset>
+          <fieldset>
+            <legend class="">LORA</legend>
+            <div class="">
+              <div id="lora">
+                <!-- <div class="lora-selector-grid">
+                      <div class="dropdown lora-name">
+                        <div class="dropdown-target"></div>
+                        <div class="dropdown-content"></div>
+                      </div>
+                      <input class="lora-strength" type="number" step="0.1" min="-20" max="20" value="1.0" placeholder="1.0" />
+                      <div class="icon-button">
+                        <img src="/static/delete.svg" />
+                      </div>
+                      </div> -->
+              </div>
+              <div id="phantom-space"></div>
+              <div class="lora-add-button-container">
+                <button class="add-lora" id="add-lora">
+                  <img src="/static/images/add.svg" />
                 </button>
-                <button onclick="postInputArgs()">POST</button>
-
               </div>
             </div>
+          </fieldset>
+        </section>
+      </div>
+      <!-- </section> -->
+      <div class="column-right">
+        <div class="card card--solid">
+          <div class="button-row">
+            <button id="queue-prompt" onclick="queuePrompt()">
+              QUEUE
+            </button>
+            <!-- <button onclick="getFile()">POST</button> -->
+            <!-- <button id="saveBoxes">SAVE BOXES</button> -->
+            <div
+            class="icon-button"
+            id="clearAll"
+            title="Clear all settings"
+          >
+            <img src="/static/images/eraser.svg" />
           </div>
-          <div class="row">
-            <div class="card">
-              <div class="row">
-                <div class="progress-bar-container">
-                  <div class="progress-bar-bg"></div>
-                  <div id="progress-bar"></div>
-                </div>
-                <!-- <button id="queue-prompt" onclick="queuePrompt()"> -->
-                <!-- QUEUE PROMPT -->
-                <!-- </button> -->
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="card">
-              <fieldset>
-                <legend>conditioning</legend>
-                <div class="label-textarea">grounding boxes</div>
 
-                <div id="grounding-boxes">
-                  <!-- <div
-                  class="grounding-boxes-grid"
-                  id="grounding-boxes-grid"
-                ></div> -->
-                </div>
-                <div class="row button-row button-row--left">
-                  <button id="show-all">SHOW ALL</button>
-                  <button id="hide-all">HIDE ALL</button>
-                  <button id="delete-all">DELETE ALL</button>
-                </div>
-                <div class="vertical-spacer-1_5"></div>
-                <!-- </fieldset>
-              <div class="vertical-spacer-1_5"></div>
-              <fieldset> -->
-                <!-- <legend>conditioning</legend> -->
-                <div class="label-textarea">positive</div>
-                <textarea
-                  id="positive-conditioning"
-                  name="positive-conditioning"
-                  rows="4"
-                  placeholder="(4k, best quality, masterpiece:1.2), ultra high res, ultra detailed"
-                ></textarea>
-                <div class="vertical-spacer-1_5"></div>
-                <div class="label-textarea">negative</div>
-                <textarea
-                  id="negative-conditioning"
-                  name="negative-conditioning"
-                  rows="4"
-                ></textarea>
-                <!-- <div class="vertical-spacer-1_5"></div> -->
-              </fieldset>
+            <div
+              class="icon-button"
+              id="saveToFile"
+              title="Save current session to file"
+            >
+              <img src="/static/images/file-save.svg" />
             </div>
+
+            <input
+              type="file"
+              accept=".json"
+              id="loadFromFile"
+              style="display: none"
+            />
+            <label
+              for="loadFromFile"
+              class="icon-button"
+              title="Load session from file"
+            >
+              <img src="/static/images/open.svg" />
+            </label>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <a
-          href="https://github.com/mut-ex"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <footer>Made by mut-ex - (V{{version_number}})</footer></a
-        >
+        <section class="card card--solid">
+          <div class="progress-bar-container">
+            <div class="progress-bar-bg"></div>
+            <div id="progress-bar"></div>
+          </div>
+          <fieldset>
+            <legend>bounding boxes</legend>
+            <div id="grounding-boxes">
+              <!-- <div class="grounding-boxes-grid" id="grounding-boxes-grid"></div> -->
+            </div>
+            <div class="button-row">
+              <button id="show-all">SHOW ALL</button>
+              <button id="hide-all">HIDE ALL</button>
+              <button id="delete-all">DELETE ALL</button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <!-- </fieldset>
+                     <div class="vertical-spacer-1_5"></div>
+                     <fieldset> -->
+            <!-- <legend>conditioning</legend> -->
+            <legend>positive prompt</legend>
+            <textarea
+              id="positive-conditioning"
+              name="positive-conditioning"
+              rows="4"
+              placeholder="(4k, best quality, masterpiece:1.2), ultra high res, ultra detailed"
+            ></textarea>
+          </fieldset>
+          <fieldset>
+            <legend>negative prompt</legend>
+
+            <textarea
+              id="negative-conditioning"
+              name="negative-conditioning"
+              rows="4"
+            ></textarea>
+            <!-- <div class="vertical-spacer-1_5"></div> -->
+          </fieldset>
+        </section>
       </div>
     </main>
-  </body>
-  <script>var secret_message="test"</script>
-  <script src="{{url_for('static',filename="js/nodes.js")}}"></script>
-  <script src="{{url_for('static',filename="js/draw.js")}}"></script>
 
-  <script src="{{url_for('static',filename="js/toast.js")}}"></script>
-  <script src="{{url_for('static',filename="js/extra.js")}}"></script>
-  <script src="{{url_for('static',filename="js/script.js")}}"></script>
+    <footer>
+         <a href="https://github.com/mut-ex" target="_blank" rel="noopener noreferrer">
+         Made by mut-ex 🩷 (V{{version_number}})</a>
+         </footer>
+  </body>
+  <script src="{{ url_for('static',filename="js/whiteboard/main.js") }}" ></script>
+  <script src="{{ url_for('static',filename="js/whiteboard/artist.js") }}" ></script>
+  <script src="{{ url_for('static',filename="js/whiteboard/shape.js") }}" ></script>
+  <script src="{{ url_for('static',filename="js/whiteboard/rectangle.js") }}" ></script>
+  <script src="{{ url_for('static',filename="js/whiteboard/surface.js") }}" ></script>
+  <script src="{{ url_for('static',filename="js/utils.js") }}" ></script> 
+  <script
+  src="{{ url_for('static',filename="js/loaders.js") }}" ></script>
+  <script src="{{
+  url_for('static',filename="js/nodes.js") }}" ></script>
+  <script src="{{
+  url_for('static',filename="js/draw.js") }}" ></script>
+  <script src="{{
+  url_for('static',filename="js/toast.js") }}" ></script>
+  <script src="{{
+  url_for('static',filename="js/extra.js") }}" ></script>
+  <script src="{{
+  url_for('static',filename="js/main.js") }}" ></script>
 </html>

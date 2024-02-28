@@ -13,6 +13,12 @@ If you would like to show your appreciation for this project,<br>please consider
 ![GLIGEN Example Image](example_boxes.png)
 ![GLIGEN Example Image](example.png)
 
+## Newest Features:
+* You can now move and resize the boxes
+* Ability to save the session the session to file and load a session from file
+* The VAE and the sampler can now be specified as well
+* Improved support for differnt aspect ratios + presets
+
 ## Getting Started
 
 First of all make sure you have [ComfyUI](https://github.com/comfyanonymous/ComfyUI) successfully installed and running.
