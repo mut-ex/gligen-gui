@@ -405,12 +405,14 @@ function addTableRow(box, box_id, map) {
 
   // Add event handler for the delete button
   col_delete.addEventListener("click", (event) => {
-    deleteRow(box_id);
     AppSurface.remove(box);
-    // deleteBox(box, box_id);
   });
+
   box.addEventListener("shapeRemoved", (e) => {
+    console.log("shape removed");
     deleteRow(box_id);
+    globalState.boxMap.delete(box_id);
+    globalState.saveToLocalStorage();
   });
   delete_button_image.title = "Delete this grounding box";
 
@@ -424,6 +426,7 @@ function addTableRow(box, box_id, map) {
     let box = event.shape;
     if (box.visible === true) {
       eye_button_image.src = "/static/images/eye-on.svg";
+      eye_button_image.style.opacity = "1";
       eye_button_image.title = "Hide this grounding box";
     } else if (box.visible === false) {
       eye_button_image.src = "/static/images/eye-off.svg";
@@ -441,7 +444,7 @@ function addTableRow(box, box_id, map) {
   table.append(newRow);
 
   // Add event handler for the toggle visibility button
-  eye_button_image.addEventListener("click", (event) => {
+  col_eye.addEventListener("click", (event) => {
     box.toggleVisibility();
     updateEyeIcon({ shape: box });
   });
@@ -453,10 +456,10 @@ function addTableRow(box, box_id, map) {
 
   animateCSS(row_id, "fadeIn");
   promptInput.focus();
-  box.addEventListener("shapeChanged", (e)=> {
+  box.addEventListener("shapeChanged", (e) => {
     // console.log(e.shape.id, e.detail)
     // globalState.saveToLocalStorage()
-  })
+  });
 
   return newRow;
 }

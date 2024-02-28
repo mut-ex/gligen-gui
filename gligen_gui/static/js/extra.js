@@ -95,7 +95,7 @@ class _GlobalState {
   }
 
   saveToLocalStorage() {
-    postInputArgs();
+    // postInputArgs();
     localStorage.setItem("globalState", this.stringify());
   }
 

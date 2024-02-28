@@ -277,8 +277,8 @@ Whiteboard.Surface = class {
 
   remove(shape) {
     this.palette.putColor(shape.color);
-    shape.dispatchEvent("shapeRemoved", { shape: shape });
     this.shapes.delete(shape);
+    shape.dispatchEvent("shapeRemoved", { shape: shape });
     this.refresh();
   }
 

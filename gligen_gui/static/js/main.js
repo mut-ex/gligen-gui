@@ -131,6 +131,7 @@ function getSeed() {
 }
 
 function postInputArgs() {
+  return
   let tags = new Array();
   globalState.boxMap.forEach((box, box_id, map) => {
     if (box.caption) tags.push(box.caption);
